@@ -1,0 +1,24 @@
+body {
+    height: 800px;
+    background-color: black;
+    background-image: url("fondo.jpg");
+    background-size: cover;
+    background-size: 90rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+#titulo {
+   text-align: center;
+   font-size: 2cm;
+   background-color: aquamarine;
+}
+#cabecera {
+    text-align: center;
+    font-size: 1cm;
+    background-color: rgba(251, 127, 255, 0.767);
+ }
+#sala{
+    height: 20%;
+    width: 30%;
+}
