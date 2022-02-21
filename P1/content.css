@@ -19,6 +19,21 @@ body {
     background-color: rgba(251, 127, 255, 0.767);
  }
 #sala{
-    height: 20%;
-    width: 30%;
+    height: 30%;
+    width: 40%;
+}
+#instrumentos{
+  height: 40%;
+  width: 50%;
+}
+table {
+  border: #b2b2b2 1px solid;
+}
+td, th {
+  border: rgb(6, 252, 252) 1px solid;
+  color: aliceblue;
+  text-align: center;
+  background-color: black;
+  height: 30%;
+  width: 30%;
 }
