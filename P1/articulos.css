@@ -1,0 +1,8 @@
+img:hover{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.img{
+    overflow: hidden;
+    background-color: black;
+}
