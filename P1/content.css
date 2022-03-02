@@ -1,7 +1,7 @@
 body {
     height: 800px;
     background-color: black;
-    background-image: url("fondo.jpg");
+    background-image: url("img/fondo.jpg");
     background-size: cover;
     background-size: 90rem;
     background-repeat: no-repeat;
@@ -51,4 +51,7 @@ img:hover{
   -webkit-transform-style: preserve-3d;
   transform: rotateY(180deg);
   transform-style: preserve-3d;
+}
+.titulos{
+  font-size: xx-large;
 }
