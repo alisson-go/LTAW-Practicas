@@ -1,0 +1,16 @@
+body{
+    background-image: url("img/fondo_articulos.jpg");
+}
+img:hover{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.img{
+    overflow: hidden;
+    background-color: black;
+
+}
+#arts{
+    clip-path: circle(200px at 50% 40%);
+   
+}
