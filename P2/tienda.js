@@ -3,6 +3,85 @@ const fs = require('fs');
 const url = require('url');
 const PUERTO = 7070;
 
+let carrito="";
+const fich_json = "tienda.json";
+
+const HOME = fs.readFileSync('tienda.html','utf-8');
+const FORM = fs.readFileSync('form.html','utf-8');
+const FORM_extra = fs.readFileSync('form_extra.html','utf-8');
+const SALAS = fs.readFileSync('salas.html','utf-8');
+const EQUIPOS = fs.readFileSync('equipos.html','utf-8');
+const ARTS = fs.readFileSync('articulos.html','utf-8');
+
+const tienda_json = fs.readFileSync(fich_json);
+const shop = JSON.parse(tienda_json);
+
+
+function get_user(req) {
+
+    //-- Leer la Cookie recibida
+    const cookie = req.headers.cookie;
+  
+    //-- Hay cookie
+    if (cookie) {
+      
+      //-- Obtener un array con todos los pares nombre-valor
+      let pares = cookie.split(";");
+      
+      //-- Variable para guardar el usuario
+      let user;
+  
+      //-- Recorrer todos los pares nombre-valor
+      pares.forEach((element, index) => {
+  
+        //-- Obtener los nombres y valores por separado
+        let [nombre, valor] = element.split('=');
+  
+        //-- Leer el usuario
+        //-- Solo si el nombre es 'user'
+        if (nombre.trim() === 'user') {
+          user = valor;
+        }
+      });
+  
+      //-- Si la variable user no está asignada
+      //-- se devuelve null
+      return user || null;
+    }
+}
+function get_prodcuts(req) {
+
+    //-- Leer la Cookie recibida
+    const cookie = req.headers.cookie;
+  
+    //-- Hay cookie
+    if (cookie) {
+      
+      //-- Obtener un array con todos los pares nombre-valor
+      let pares = cookie.split(";");
+  
+      //-- Recorrer todos los pares nombre-valor
+      pares.forEach((element, index) => {
+  
+        //-- Obtener los nombres y valores por separado
+        let [nombre, valor] = element.split('=');
+  
+        //-- Leer el usuario
+        //-- Solo si el nombre es 'user'
+        if (nombre.trim() === 'prodcutos') {
+          valor.split(":").forEach((element) => {
+              get_prodcuts.push(element);
+          });
+        }
+      });
+  
+      //-- Si la variable user no está asignada
+      //-- se devuelve null
+      return products;
+    }
+  }
+  
+
 const server = http.createServer((req, res)=>{
     console.log("Petición recibida!");
     //-- Valores de la respuesta por defecto
