@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang = "en" dir = "ltr">
+    <head>
+        <meta charset = "utf-8"> 
+        <title>Las Fiestas de Ali</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel = "stylesheet" href="tienda.css">
+        <link rel="icon" href="favicon.ico">
+    </head> 
+    <body>
+        <h1 id="titulo">GLOW PARTY</h1>
+
+        <div class = "login">
+            <div class="logo">ENTRA AQUÍ</div>
+            <div class = "box">
+                <form action="/procesar" method="get">
+                    <label>USUARIO</label>
+                    <input type="email" name="nombre" placeholder="nombre usuario"/> <!--name:nombre de entrada, es lo que el formulario enviará-->
+                    <p></p>
+                    <label>CONTRASEÑA</label>
+                    <input type="text" name="apellidos" placeholder="minimo 5 caracteres" />
+                    <p></p>
+                      <input type="submit" value="Enviar"/> <!--value:al pulsar genera un GET en /procesar del servidor -->
+                </form>
+            </div>
+            
+        </div>
+
+        <div align = "center"><img src="img/bola.gif" alt="bola de discoteca"></div>
+        <h2 id="cabecera">¿Te ayudo a organizar tu fiesta?</h2>
+
+        
+        
+        <div>
+            <table>
+                <tr>
+                    <th>
+                        <a href="salas.html"><img id="sala" src="img/sala.jpg" alt="sala de fiesta"></a>
+                    </th>
+                    <th>
+                        <a href="instrumentos.html"><img id="instrumentos" src="img/instrumentos.jpg" alt="sala de fiesta"></a>
+                    </th>
+                    <th>
+                        <a href="neon.html"><img id="sala" src="img/neon.jpg" alt="sala de fiesta"></a>
+                    </th>     
+                </tr>
+                <tr>
+                    <td class="titulos">SALAS</td>
+                    <td class="titulos">EQUIPOS DE MÚSICA</td>
+                    <td class="titulos">ARTICULOS DE DECORACIÓN</td>
+                </tr>
+            </table>
+           
+        </div>
+        <div>
+            <h3>
+                <marquee behavior="alternate" direction="x" bgcolor="fuchsia" >CONTACTOS:</marquee>
+            </h3>
+        </div>
+    </body>
+</html>
