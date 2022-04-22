@@ -17,18 +17,18 @@ const server = http.createServer((req, res)=>{
     //-- genera un error
     if (myURL.pathname == '/') {
         page += "tienda.html";
-        console.log('AAAAAAAAAAAAQIIII' + page);
+        
     }else{
         page += myURL.pathname.substr(1)
-        console.log('ES EL NOMBREEE' + page);
+        
 
     }
     let selection = "";
     console.log('Fichero a devolver: ' + page);
     var findout = page.split(".");
-    console.log('FIND OUT: ' + findout);
+    
     let type = findout[1];
-    console.log("tipoooo " + type);
+    
     if (type == "jpg"){
         selection = "image/jpg";
     }else if  (type == "html") {
@@ -73,4 +73,4 @@ const server = http.createServer((req, res)=>{
 });
 server.listen(PUERTO);
 
-console.log("Ejemplo 7. Escuchando en puerto: " + PUERTO);
+console.log("Escuchando en puerto: " + PUERTO);

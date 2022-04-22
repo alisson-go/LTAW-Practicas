@@ -7,15 +7,17 @@ let carrito="";
 const fich_json = "tienda.json";
 
 const HOME = fs.readFileSync('tienda.html','utf-8');
-const FORM = fs.readFileSync('form.html','utf-8');
-const FORM_extra = fs.readFileSync('form_extra.html','utf-8');
+const LOGIN = fs.readFileSync('form.html','utf-8');
+const LOGIN_OK = fs.readFileSync('form_extra.html','utf-8');
 const SALAS = fs.readFileSync('salas.html','utf-8');
-const EQUIPOS = fs.readFileSync('equipos.html','utf-8');
+const EQUIPOS = fs.readFileSync('instrumentos.html','utf-8');
 const ARTS = fs.readFileSync('articulos.html','utf-8');
+
 
 const tienda_json = fs.readFileSync(fich_json);
 const shop = JSON.parse(tienda_json);
-
+let user;
+let list_product;
 
 function get_user(req) {
 
@@ -29,7 +31,7 @@ function get_user(req) {
       let pares = cookie.split(";");
       
       //-- Variable para guardar el usuario
-      let user;
+      
   
       //-- Recorrer todos los pares nombre-valor
       pares.forEach((element, index) => {
@@ -69,15 +71,17 @@ function get_prodcuts(req) {
         //-- Leer el usuario
         //-- Solo si el nombre es 'user'
         if (nombre.trim() === 'prodcutos') {
-          valor.split(":").forEach((element) => {
-              get_prodcuts.push(element);
-          });
+          //valor.split(":").forEach((element) => {
+              //get_prodcuts.push(element);
+          //});
+          list_product = valor;
+
         }
       });
   
       //-- Si la variable user no está asignada
       //-- se devuelve null
-      return products;
+      return list_product || null;
     }
   }
   
@@ -94,9 +98,22 @@ const server = http.createServer((req, res)=>{
     
      //-- Cualquier recurso que no sea la página principal
     //-- genera un error
+    let content = LOGIN_OK.replace("HTML_EXTRA","");
+    let user = get_user(req);
+    console.log("User: " + user);
     if (myURL.pathname == '/') {
         page += "tienda.html";
-        console.log('AAAAAAAAAAAAQIIII' + page);
+        if (user) {
+
+            //-- Añadir a la página el nombre del usuario
+            console.log("user: " + user);
+            content = LOGIN_OK.replace("HTML_EXTRA", "<h2>Usuario: " + user + "</h2>");
+        } else {
+            //-- Mostrar el enlace a la página de login
+            content = LOGIN.replace("HTML_EXTRA", `
+            <a href="login">[Login]</a>
+            `);
+        }
     }else{
         page += myURL.pathname.substr(1)
         console.log('ES EL NOMBREEE' + page);
@@ -128,6 +145,7 @@ const server = http.createServer((req, res)=>{
         selection = "text/html";
     }
     console.log("LA SELECCION ES  " + selection);
+ 
     fs.readFile(page, (err, data) => {
 
         if (err) {  //-- Ha ocurrido algun error
@@ -152,4 +170,4 @@ const server = http.createServer((req, res)=>{
 });
 server.listen(PUERTO);
 
-console.log("Ejemplo 7. Escuchando en puerto: " + PUERTO);
+console.log("Escuchando en puerto: " + PUERTO);
