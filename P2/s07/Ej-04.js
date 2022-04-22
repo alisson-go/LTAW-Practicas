@@ -1,3 +1,5 @@
+//-- Servidor JSON
+
 const http = require('http');
 const fs = require('fs');
 const PUERTO = 8080;
@@ -6,24 +8,27 @@ const PUERTO = 8080;
 const ERROR = fs.readFileSync('error_page.html');
 
 //-- Cargar pagina web principal
-const MAIN = fs.readFileSync('Ej-03.html','utf-8');
+const MAIN = fs.readFileSync('Ej-04.html','utf-8');
 
 //-- Leer fichero JSON con los productos
 const PRODUCTOS_JSON = fs.readFileSync('Ej-01.json');
+
+//-- Obtener el array de productos
+let productos = JSON.parse(PRODUCTOS_JSON);
 
 //-- SERVIDOR: Bucle principal de atención a clientes
 const server = http.createServer((req, res) => {
 
     //-- Construir el objeto url con la url de la solicitud
     const myURL = new URL(req.url, 'http://' + req.headers['host']);  
-  
+
     //-- Variables para el mensaje de respuesta
     let content_type = "text/html";
     let content = "";
   
     //-- Leer recurso y eliminar la / inicial
     let recurso = myURL.pathname;
-    recurso = recurso.slice(1); 
+    recurso = recurso.substr(1); 
 
     switch (recurso) {
         case '':
@@ -34,16 +39,33 @@ const server = http.createServer((req, res) => {
         case 'productos':
             console.log("Peticion de Productos!")
             content_type = "application/json";
-            content = PRODUCTOS_JSON;
-            //parametros
+
+            //-- Leer los parámetros
             let param1 = myURL.searchParams.get('param1');
-            console.log("  Param1: " +  param1);
-            let param2 = myURL.searchParams.get('param2');
-            console.log("  Param2: " + param2);
-            
+
+            param1 = param1.toUpperCase();
+
+            console.log("  Param: " +  param1);
+
+            let result = [];
+
+            for (let prod of productos) {
+
+                //-- Pasar a mayúsculas
+                prodU = prod.toUpperCase();
+
+                //-- Si el producto comienza por lo indicado en el parametro
+                //-- meter este producto en el array de resultados
+                if (prodU.startsWith(param1)) {
+                    result.push(prod);
+                }
+                
+            }
+            console.log(result);
+            content = JSON.stringify(result);
             break;
 
-        case 'cliente-3.js':
+        case 'cliente-4.js':
             //-- Leer fichero javascript
             console.log("recurso: " + recurso);
             fs.readFile(recurso, 'utf-8', (err,data) => {
@@ -76,5 +98,6 @@ const server = http.createServer((req, res) => {
   
   });
   
-server.listen(PUERTO);
-console.log("Escuchando en puerto: " + PUERTO);
+  server.listen(PUERTO);
+  console.log("Escuchando en puerto: " + PUERTO);
+  
