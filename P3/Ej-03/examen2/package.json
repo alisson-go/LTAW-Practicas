@@ -1,0 +1,6 @@
+{
+    "name": "app1",
+    "dependencies": {
+        "colors": "^1.4.0"
+    }
+}
