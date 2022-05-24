@@ -8,9 +8,7 @@ img:hover{
 .img{
     overflow: hidden;
     background-color: black;
-
 }
 #arts{
     clip-path: circle(200px at 50% 40%);
-   
 }

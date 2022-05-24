@@ -2,7 +2,20 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const PUERTO = 7070;
-
+const pagina_error = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi tienda</title>
+</head>
+<body style="background-color: red">
+    <h1 style="color: white">ERROR!!!!</h1>
+</body>
+</html>
+`
 const server = http.createServer((req, res)=>{
     console.log("Petición recibida!");
     //-- Valores de la respuesta por defecto
@@ -52,8 +65,10 @@ const server = http.createServer((req, res)=>{
     fs.readFile(page, (err, data) => {
 
         if (err) {  //-- Ha ocurrido algun error
+        res.writeHead(404, {'Content-Type': selection});
         console.log("Error!!");
         console.log(err.message);
+        return res.end("404 Not Found");
         } 
         else {  //-- Lectura normal
             console.log("Lectura completada...");
