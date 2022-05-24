@@ -16,19 +16,72 @@
             },
             {
                 "equipos":[{
-                    "nombre":""
+                    "name" : "altavoces" ,
+                    "description" : "altavoces para sala" ,
+                    "price" : "450€" 
+                },
+                {
+                    "name" : "mezcladora1" ,
+                    "description" : "mesa de mezclas simple" ,
+                    "price" : "250€" 
+                },
+                {
+                    "name" : "mezcladora2" ,
+                    "description" : "mesa de mezclas completa" ,
+                    "price" : "550€" 
                 }
 
                 ]
             },
             {
                 "articulos":[{
-                    
+                    "name" : "sticks" ,
+                    "description" : "sticks neón" ,
+                    "price" : "20€" 
+                },
+                {
+                    "name" : "globos" ,
+                    "description" : "globos neón" ,
+                    "price" : "50€" 
+                },
+                {
+                    "name" : "gafas" ,
+                    "description" : "gafas de fiesta" ,
+                    "price" : "5€" 
                 }
 
                 ]
             }
 
+        ]
+    },
+    {
+        "usuarios": [
+            {
+                "usuario": "Ali",
+                "nombre": "Alisson",
+                "correo": "ali@ali.com"
+            },
+            {
+                "usuario": "root",
+                "nombre": "User",
+                "correo":"user@user.com"
+            }
+        ]
+    },
+    {
+        "pedidos": [
+            {
+                "nombre": "Ali",
+                "dirección": "Avenida dos",
+                "número tarjeta":"5555",
+                "objetos":[
+                    {
+                        "artículos": "stick neon",
+                        "unidades":1
+                    }
+                ]
+            }
         ]
     }
 ]

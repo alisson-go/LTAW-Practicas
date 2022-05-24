@@ -17,22 +17,24 @@ const ARTS = fs.readFileSync('articulos.html','utf-8');
 const tienda_json = fs.readFileSync(fich_json);
 const shop = JSON.parse(tienda_json);
 let user;
-let list_product;
+let list_product = [];
+//-- navegamos por los productos
+shop.productos.forEach((element) => {
+    list_product.push(element.nombre);
+})
 
 function get_user(req) {
 
     //-- Leer la Cookie recibida
     const cookie = req.headers.cookie;
-  
+    let cookie_buy = " ";
+    let producto;
+
     //-- Hay cookie
     if (cookie) {
       
       //-- Obtener un array con todos los pares nombre-valor
       let pares = cookie.split(";");
-      
-      //-- Variable para guardar el usuario
-      
-  
       //-- Recorrer todos los pares nombre-valor
       pares.forEach((element, index) => {
   
@@ -43,6 +45,10 @@ function get_user(req) {
         //-- Solo si el nombre es 'user'
         if (nombre.trim() === 'user') {
           user = valor;
+        }else if (nombre.trim()=='carrito'){
+            cookie_buy = element;
+            producto = valor.split(':')
+            producto.pop();
         }
       });
   
