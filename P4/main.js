@@ -159,7 +159,7 @@ electron.app.on('ready', () => {
   plataforma = process.plataform;
   direct = process.cwd();
   ip_address = ip.address();
-  chat = "chat-web.html";
+  chat = "public/chat-web.html";
   let information = [version_node, version_chrome, version_electron, architecture, plataform, direct, ip_address, PUERTO, chat];
 
 
