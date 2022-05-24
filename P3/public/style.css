@@ -1,0 +1,21 @@
+body{
+    background-image: url("lol.jpg");
+
+}
+.container{
+    text-align: center;
+    font-size: 30px;
+    background:violet;
+    padding:15px;
+    border:10px solid purple;
+    margin-top:100px;
+    margin-bottom:100px;
+}
+
+input::placeholder{
+    color: rgb(0, 238, 255);
+    font-size: 17px;
+}
+.dis{
+    font-size: 20px
+}

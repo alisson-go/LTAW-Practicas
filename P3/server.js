@@ -6,13 +6,9 @@ const colors = require('colors');
 
 const PUERTO = 8080;
 let cont = 0;
+let nick_Array = [];
 let msg_sended;
-let message = ("Comandos soportados:<br>"+
-              "--- <b>'/help'</b>: Mostrar los comandos de ayuda<br>"+
-              "--- <b>'/list'</b>: Mostrar usuarios conectados<br>"+
-              "--- <b>'/hello'</b>: El servidor te saluda<br>"+
-              "--- <b>'/date'</b>: Mostrar fecha actual<br>"
-)
+
 
 const time = Date.now();
 const date_time = new Date(time)
@@ -57,6 +53,7 @@ function welcome_comand(msg){
     msg_sended  = "Fecha: <b>"+ date_time.toISOString()+"</b>";
   
   }
+  return(msg_sended)
 }
 //------------------- GESTION SOCKETS IO
 //-- Evento: Nueva conexion recibida
@@ -69,21 +66,37 @@ io.on('connect', (socket) => {
   socket.send("Bienvenido al Chat.AliG1.0")
   //-- Nuevo usuario
   io.send("Nuevo usuario ha entrado al chat")
+
   //-- Evento de desconexión
   socket.on('disconnect', function(){
-    console.log('** CONEXIÓN TERMINADA **'.yellow);
+    console.log('** CONEXIÓN TERMINADA **'.red);
     cont = cont - 1;
     despedida =  "Hasta luego!"
-    io.send(despedida)
+    socket.broadcast.emit('message', despedida);
   });  
 
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
-    console.log(msg)
+    if(msg.startsWith('/')){
+      console.log("Mensaje Especial!: " + msg.blue);
+      msg_sended = welcome_comand(msg);
+      socket.send(msg_sended)
+
+    }else{
+      io.send(msg)
+    }
     //-- Reenviarlo a todos los clientes conectados
-    io.send(msg);
   });
+  socket.on('escribiendo', (msg)=>{
+    // Si el usuario esta escribiendo un mensaje 
+    if(datos.escribiendo == true){
+       io.emit('display',"escribiendo");
+    }
+    else {
+       io.emit('display', "escribiendo");
+    }
+ });
 
 });
 
