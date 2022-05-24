@@ -16,6 +16,8 @@ const usuarios = document.getElementById("usuarios");
 const print = document.getElementById("print");
 
 info1.textContent = process.versions.node;
+info2.textContent = process.versions.electron;
+info3.textContent = process.versions.chrome;
 
 
 btn_test.onclick = () => {
