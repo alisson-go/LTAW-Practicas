@@ -15,6 +15,7 @@ const ip = document.getElementById("ip");
 const usuarios = document.getElementById("usuarios");
 const print = document.getElementById("print");
 
+info1.textContent = process.versions.node;
 
 
 btn_test.onclick = () => {
