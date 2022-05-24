@@ -1,10 +1,20 @@
-//-- Cargar las dependencias
-const socket = require('socket.io');
-const http = require('http');
+//-- Cargar el módulo de electron
+const electron = require('electron');
 const express = require('express');
 const colors = require('colors');
+const socket = require('socket.io');
+const http = require('http');
+const ip = require('ip');
+const process = require('process');
 
 const PUERTO = 8080;
+
+
+console.log("Arrancando electron...");
+
+//-- Variable para acceder a la ventana principal
+//-- Se pone aquí para que sea global al módulo principal
+let win = null;
 let cont = 0;
 let nick_Array = [];
 let msg_sended;
@@ -17,9 +27,9 @@ let message = ("<b>Comandos soportados:</b><br>"+
               "==================================================<br>"
 )
 
-
 const time = Date.now();
 const date_time = new Date(time)
+
 //-- Crear una nueva aplciacion web
 const app = express();
 
@@ -28,7 +38,6 @@ const server = http.Server(app);
 
 //-- Crear el servidor de websockets, asociado al servidor http
 const io = socket(server);
-
 //-------- PUNTOS DE ENTRADA DE LA APLICACION WEB
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
@@ -69,9 +78,9 @@ io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
   cont = cont + 1;
-
+  win.webContents.send('usuarios', cont);
   //-- Bienvenida
-  socket.send("Bienvenido al Chat.AliG1.0")
+  socket.send("Bienvenido al Chat.AliG 1.0")
   //-- Nuevo usuario
   io.send("Nuevo usuario ha entrado al chat")
 
@@ -79,6 +88,7 @@ io.on('connect', (socket) => {
   socket.on('disconnect', function(){
     console.log('** CONEXIÓN TERMINADA **'.red);
     cont = cont - 1;
+    win.webContents.send('usuarios', cont);
     despedida =  "Hasta luego!"
     socket.broadcast.emit('message', despedida);
   });  
@@ -112,3 +122,64 @@ io.on('connect', (socket) => {
 //-- ¡Que empiecen los juegos de los WebSockets!
 server.listen(PUERTO);
 console.log("Escuchando en puerto: " + PUERTO);
+//-- Punto de entrada. En cuanto electron está listo,
+//-- ejecuta esta función
+electron.app.on('ready', () => {
+    console.log("Evento Ready!");
+
+    //-- Crear la ventana principal de nuestra aplicación
+    win = new electron.BrowserWindow({
+        width: 600,   //-- Anchura 
+        height: 600,  //-- Altura
+
+        //-- Permitir que la ventana tenga ACCESO AL SISTEMA
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false
+        }
+    });
+
+  //-- En la parte superior se nos ha creado el menu
+  //-- por defecto
+  //-- Si lo queremos quitar, hay que añadir esta línea
+  //win.setMenuBarVisibility(false)
+
+  //-- Cargar contenido web en la ventana
+  //-- La ventana es en realidad.... ¡un navegador!
+  //win.loadURL('https://www.urjc.es/etsit');
+
+  //-- Cargar interfaz gráfica en HTML
+  win.loadFile("index.html");
+
+  //-- Elementos
+  version_node = process.versions.node;
+  version_electron = process.versions.electron;
+  version_chrome = process.versions.chrome;
+  architecture = process.arch;
+  plataforma = process.plataform;
+  direct = process.cwd();
+  ip_address = ip.address();
+  chat = "chat-web.html";
+  let information = [version_node, version_chrome, version_electron, architecture, plataform, direct, ip_address, PUERTO, chat];
+
+
+  //-- Esperar a que la página se cargue y se muestre
+  //-- y luego enviar el mensaje al proceso de renderizado para que 
+  //-- lo saque por la interfaz gráfica
+  win.on('ready-to-show', () => {
+    win.webContents.send('information',  information);
+  });
+
+  //-- Enviar un mensaje al proceso de renderizado para que lo saque
+  //-- por la interfaz gráfica
+  win.webContents.send('print', "MENSAJE ENVIADO DESDE PROCESO MAIN");
+
+});
+
+
+//-- Esperar a recibir los mensajes de botón apretado (Test) del proceso de 
+//-- renderizado. Al recibirlos se escribe una cadena en la consola
+electron.ipcMain.handle('test', (event, msg) => {
+  console.log("-> Mensaje: " + msg);
+  io.send(msg)
+});
